@@ -4,8 +4,6 @@ export default async function handlerGetUser(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  console.log(req);
-
   const request = await fetch('http://localhost:3001/protected', {
     headers: {
       'Content-Type': 'application/json',
