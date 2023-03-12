@@ -9,8 +9,6 @@ export default function Login({
 }: {
   handleToggleForm: () => void;
 }) {
-  const router = useRouter();
-
   const { values, handleChange, handleSubmit, errors } = useFormik({
     initialValues: {
       email: '',
@@ -27,7 +25,7 @@ export default function Login({
     }),
     onSubmit: async (values) => {
       const dataParse = JSON.stringify(values);
-      const request = await fetch('http://localhost:3001/login', {
+      const request = await fetch('/api/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -35,11 +33,6 @@ export default function Login({
         body: dataParse,
       });
       const response = await request.json();
-      if (response.ok) {
-        localStorage.setItem('token', response.token);
-        router.push('/home');
-      }
-
       console.log(response);
     },
   });

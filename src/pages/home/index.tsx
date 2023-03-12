@@ -1,29 +1,24 @@
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
 
-export default function Home() {
-  const [user, setUser] = useState<{ email?: String }>({});
-
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-
-    async function getUserData() {
-      const request = await fetch('http://localhost:3001/protected', {
-        headers: {
-          authorization: `${token}`,
-        },
-      });
-      const response = await request.json();
-
-      setUser(response);
-    }
-    getUserData();
-  }, []);
+export default function Home({ user }: any) {
+  console.log(user);
 
   return (
     <>
-      <h1 className="text-3xl">Hello {user.email}</h1>
+      <h1 className="text-3xl">Hello </h1>
       <Link href="/logout">Log out</Link>
     </>
   );
+}
+
+export async function getServerSideProps() {
+  const request = await fetch('http://localhost:3000/api/getUser');
+  const response = await request.json();
+  console.log(response);
+
+  return {
+    props: {
+      user: response,
+    }, // will be passed to the page component as props
+  };
 }

@@ -33,7 +33,7 @@ export default function SignUp({
     }),
     onSubmit: async (values) => {
       const dataParse = JSON.stringify(values);
-      const request = await fetch('http://localhost:3001/signup', {
+      const request = await fetch('/api/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -41,11 +41,6 @@ export default function SignUp({
         body: dataParse,
       });
       const response = await request.json();
-
-      if (response.ok) {
-        localStorage.setItem('token', response.token);
-        router.push('/home');
-      }
 
       console.log(response);
     },
