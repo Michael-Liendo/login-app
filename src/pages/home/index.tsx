@@ -1,24 +1,23 @@
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
-export default function Home({ user }: any) {
-  console.log(user);
+export default function Home() {
+  const [user, setUser] = useState<{ email?: string }>({});
+
+  useEffect(() => {
+    async function getProfile() {
+      const request = await fetch('http://localhost:3000/api/profile');
+      const response = await request.json();
+
+      setUser(response);
+    }
+    getProfile();
+  }, []);
 
   return (
     <>
-      <h1 className="text-3xl">Hello </h1>
+      <h1 className="text-3xl">Hello {user.email}</h1>
       <Link href="/logout">Log out</Link>
     </>
   );
-}
-
-export async function getServerSideProps() {
-  const request = await fetch('http://localhost:3000/api/getUser');
-  const response = await request.json();
-  console.log(response);
-
-  return {
-    props: {
-      user: response,
-    }, // will be passed to the page component as props
-  };
 }

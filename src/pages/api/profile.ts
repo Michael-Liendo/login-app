@@ -1,16 +1,15 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-export default async function handlerGetUser(
+export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   const { token } = req.cookies;
 
-  console.log(token);
-
   const request = await fetch('http://localhost:3001/protected', {
     headers: {
       'Content-Type': 'application/json',
+      authorization: `${token}`,
     },
   });
   const response = await request.json();
