@@ -9,6 +9,8 @@ export default function Login({
 }: {
   handleToggleForm: () => void;
 }) {
+  const router = useRouter();
+
   const { values, handleChange, handleSubmit, errors } = useFormik({
     initialValues: {
       email: '',
@@ -33,6 +35,12 @@ export default function Login({
         body: dataParse,
       });
       const response = await request.json();
+
+      if (response.ok) {
+        console.log('Logged');
+        router.push('/home');
+      }
+
       console.log(response);
     },
   });

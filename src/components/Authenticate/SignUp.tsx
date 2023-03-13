@@ -20,16 +20,15 @@ export default function SignUp({
       confirmPassword: '',
     },
     validationSchema: Yup.object({
-      name: Yup.string(),
+      name: Yup.string().required(),
       lastName: Yup.string(),
       email: Yup.string().email().required(),
       password: Yup.string()
         .min(1, 'Password is too short - should be 8 chars minimum')
         .required(),
-      confirmPassword: Yup.string().oneOf(
-        [Yup.ref('password')],
-        'password does not match'
-      ),
+      confirmPassword: Yup.string()
+        .oneOf([Yup.ref('password')], 'password does not match')
+        .required(),
     }),
     onSubmit: async (values) => {
       const dataParse = JSON.stringify(values);
@@ -41,6 +40,11 @@ export default function SignUp({
         body: dataParse,
       });
       const response = await request.json();
+
+      if (response.ok) {
+        console.log('Account created');
+        router.push('/home');
+      }
 
       console.log(response);
     },

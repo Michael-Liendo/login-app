@@ -24,9 +24,7 @@ export default async function handler(
     });
 
     res.setHeader('Set-Cookie', serialized);
-    res.status(200).json({
-      message: 'Login successful',
-    });
+    res.status(200).json(response);
   } else {
     res.json(response);
   }
